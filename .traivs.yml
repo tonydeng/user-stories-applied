@@ -1,0 +1,19 @@
+language: node_js
+
+node_js:
+- node_js
+
+install:
+- npm install -g gitbook
+- npm install -g gitbook-cli
+- gitbook install
+
+script:
+- gitbook build
+
+after_success:
+- sh deploy-to-github.sh
+
+env:
+  global:
+    - secure: EcEfk3nQmsoqz5V0U5TLc1K7xZrYGHodularifADjK17d7I3TUKqMPs14r/Ny8fI0MS7kWPM0AzGo35IoOUuEAsTCMLjzG50dIM5I8UL6J84sM0Gq6SDhNTBMqqXtPDFUxXLedsX7W/zkAI/5g5do5h4LmvnnAMA5apPH/OcRQM=
