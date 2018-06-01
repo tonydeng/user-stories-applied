@@ -1,25 +1,22 @@
-#!/bin/bash
+#!/bin/sh
 
-set -o errexit -o nounset
+setup_git(){
+   git config --global user.name "Travis CI"
+   git config --global user.email "travis@travis-ci.org"
+}
 
-if [[ "$TRAVIS_BRANCH" != "master" ]]; then
-    echo "This commit was made against the $TRAVIS_BRANCH and not the master! No Deploy!"
-    exit 0
-fi
 
-rev=$(git rev-parse --short HEAD)
+commit_website_files(){
+    git checkout -b gh-pages
+    git add . *.html
+    git commit -a -m "Travis build: $TRAVIS_BUILD_NUMBER"
+}
 
-cd _book
+upload_files(){
+    git remote add origin-pages https://${GH_TOKEN}@github.com/tonydeng/user-stories-applied.git > /dev/null 2>&1
+    git push --quiet --set-upstream origin-pages gh-pages
+}
 
-git init
-
-git config user.name  "Tony Deng"
-git config user.email "wolf.deng@gmail.com"
-
-git remote add upstream "https://$GH_TOKEN@github.com/tonydeng/user-stories-applied.git"
-git fetch upstream
-git reset upstream/master
-
-git add -A
-git commit -m "rebuild pages at $(rev)"
-git push -q upstream HEAD:master
+setup_git
+commit_website_files
+upload_files

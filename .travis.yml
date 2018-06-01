@@ -14,17 +14,7 @@ script:
 - gitbook build
 
 after_success:
-- git config --global user.name "Tony Deng"
-- git config --global user.email "wolf.deng@gmail.com"
-- git checkout -b gh-pages
-- git pull origin gh-pages --rebase
-- cp -R _book/* .
-- git clean -fx node_modules
-- git clean -fx _book
-- git add .
-- git commit -a -m "rebuild pages"
-- git remote add upstream "https://$GH_TOKEN@github.com/tonydeng/user-stories-applied.git"
-- git push upstream gh-pages
+- /bin/sh deploy-to-github.sh
 
 env:
   global:
