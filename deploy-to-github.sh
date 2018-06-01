@@ -8,7 +8,11 @@ setup_git(){
 
 commit_website_files(){
     git checkout -b gh-pages
-    git add . *.html
+    git pull origin gh-pages --rebase
+    cp -R _book/* .
+    git clean -fx node_modules
+    git clean -fx _book
+    git add .
     git commit -a -m "Travis build: $TRAVIS_BUILD_NUMBER"
 }
 
