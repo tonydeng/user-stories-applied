@@ -1,4 +1,4 @@
-# 用户故事
+# 敏捷的用户故事方法
 
 [![Build Status](https://travis-ci.org/tonydeng/user-stories-applied.svg?branch=master)](https://travis-ci.org/tonydeng/user-stories-applied)
 
@@ -12,7 +12,7 @@
 
 但是，我们使用用户故事，不仅仅是为了快。
 
-从大脑的认知的角度来看，面对同样一个主题，通过多种不同的方式、不同活动的刺激，大脑才能深刻的理解和记忆。
+从大脑的认知的角度来看，面对同样一个主题，通过多种不同的方式、不同活动的刺激，大脑才能深刻的理解和记忆。
 
 著名的极限编程创始人之一`Ron Jeffries`提出了`3C`原则：
 
