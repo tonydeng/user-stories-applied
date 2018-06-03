@@ -1,5 +1,7 @@
 # 编写故事
 
+![User Story INVEST](images/INVEST.jpg)
+
 为了构造好的故事，我们关注六个特征。
 
 一个优秀的故事应该具备以下特点：
