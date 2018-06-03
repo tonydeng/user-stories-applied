@@ -1,6 +1,6 @@
 # Summary
 
-* [用户故事](README.md)
+* [敏捷的用户故事方法](README.md)
 * [一、起步](starting.md)
     * [背景](ch1/README.md)
         * [什么是用户故事？](ch1/1.1.md)
