@@ -1,4 +1,4 @@
-# 起步
+# 一、 起步
 
 ![起步](images/starting.jpg)
 
