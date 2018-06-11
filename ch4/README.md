@@ -1,4 +1,4 @@
-# 收集故事
+# 4. 收集故事
 
 ![三气周瑜](images/sanqizhouyu.jpeg)
 

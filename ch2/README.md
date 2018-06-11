@@ -1,4 +1,4 @@
-# 编写故事
+# 2. 编写故事
 
 ![User Story INVEST](images/INVEST.jpg)
 
