@@ -1,0 +1,9 @@
+[book]
+title = "敏捷的用户故事方法"
+authors = ["Tony Deng"]
+language = "zh-CN"
+multilingual = false
+src = "."
+
+[build]
+build-dir = "_book"
