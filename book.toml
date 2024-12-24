@@ -21,7 +21,7 @@ git-repository-url = "https://github.com/tonydeng/user-stories-applied"
 git-repository-icon = "fa-github"
 
 [output.html.fold]
-enable = true
+enable = false
 level = 0
 
 [output.html.playground]
