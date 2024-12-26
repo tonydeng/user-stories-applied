@@ -1,0 +1,397 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>6. 用户故事验收测试 - 敏捷的用户故事方法</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="关于在敏捷开发中如何进行用户故事开发和编写的一些方法和实践">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/simple-lightbox.css">
+        <link rel="stylesheet" href="../theme/theme.css">
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> 敏捷的用户故事方法</a></li><li class="chapter-item expanded "><a href="ch1/index.html"><strong aria-hidden="true">2.</strong> 1. 什么是用户故事？</a></li><li class="chapter-item expanded "><a href="ch2/index.html"><strong aria-hidden="true">3.</strong> 2. 编写故事</a></li><li class="chapter-item expanded "><a href="ch3/index.html"><strong aria-hidden="true">4.</strong> 3. 用户角色建模</a></li><li class="chapter-item expanded "><a href="ch4/index.html"><strong aria-hidden="true">5.</strong> 4. 收集故事</a></li><li class="chapter-item expanded "><a href="ch5/index.html"><strong aria-hidden="true">6.</strong> 5. 与用户代理合作</a></li><li class="chapter-item expanded "><a href="ch6/index.html"><strong aria-hidden="true">7.</strong> 6. 用户故事验收测试</a></li><li class="chapter-item expanded "><a href="ch7/index.html"><strong aria-hidden="true">8.</strong> 7. 优秀的用户故事准则</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">敏捷的用户故事方法</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/tonydeng/user-stories-applied" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <h1 id="6-用户故事验收测试"><a class="header" href="#6-用户故事验收测试">6. 用户故事验收测试</a></h1>
+<p><img src="images/atdd.jpg" alt="ATDD" /></p>
+<p><strong>写验收测试的好处有很多，其中之一就是很多客户和开发人员讨论的很多细节可以通过验收测试记录下来</strong>。</p>
+<p>比起写冗长的需求列表，像“系统应该...”，可以用测试来充实很多用户故事的细节。</p>
+<p>整理验收测试是基本是两步流程：</p>
+<ul>
+<li>第一，将测试要点记录在故事卡的背面，任何时候发现新的测试，都可以记录到故事卡的背面</li>
+<li>第二，将测试要点变成全面的测试，这些测试可以用来演示故事已正确、完整的实现</li>
+</ul>
+<p>比如，一个记录在故事卡背面的测试要点的例子，“公司可以用信用卡支付发布工作的费用”，这个故事卡的背面可能一下这些测试要点：</p>
+<ul>
+<li>用Visa信用卡、万事达信用卡和运通卡测试。（通过）</li>
+<li>用大莱卡测试。（失败）</li>
+<li>用正确的、错误的和空的卡测试</li>
+<li>用过期的信用卡测试</li>
+<li>测试不同的交易金额（包括超出信用卡额度限制）</li>
+</ul>
+<p>这些测试要点记录了客户提出的一些假设。</p>
+<blockquote>
+<p>假定在招聘网站的例子中的客户写了一个故事“求职者可以查看指定工作的详细信息”。</p>
+<p>客户和开发人员讨论这个故事，确定一些需要显示的一些工作信息 -- 职位名称，描述，工作地点，薪水范围，如何申请等等。</p>
+<p>然而，可以了解并不是所有公司都会提供所有这些信息，所以他希望网站能够自动处理未填的数据。</p>
+<p>比如，没有提供薪水信息，客户甚至不希望提供“薪水范围”标签出现在屏幕上。</p>
+<p>这应该在一个测试里反映，因为程序员可能会假定系统发布工作模块要求所有工作都提供薪水信息。</p>
+</blockquote>
+<p><strong>验收测试也提供了确认故事是否被完整实现的基本标准</strong>。有了这样的标准，我们就知道什么时候某件事算是做完了，这是避免了花太多或太少的时间和精力的最好方法。</p>
+<blockquote>
+<p>举个生活的例子，我妻子烤蛋糕时，她的验收标准就是在蛋糕里插一根牙签。如果牙签拿出来是赶紧的，那么蛋糕就算是做好了。
+而我则是将手指插入蛋糕，然后尝尝，以此来验收测试她做的蛋糕。</p>
+</blockquote>
+<h2 id="61-在写代码之前写测试"><a class="header" href="#61-在写代码之前写测试">6.1. 在写代码之前写测试</a></h2>
+<p><strong>在开始编写故事代码之前，验收测试可以为程序员提供大量有用的信息</strong>。</p>
+<blockquote>
+<p>例如，想想“测试不同交易金额（包括超过信用卡额度限制）”。</p>
+</blockquote>
+<blockquote>
+<p>如果在程序员开始写代码前写了这个测试。它会提醒程序员处理因信用额度不够导致交易失败的情况。</p>
+</blockquote>
+<blockquote>
+<p>如果没有看到这个测试，有些程序员就会忘记支持这种情况。</p>
+</blockquote>
+<p>显然，为了让程序员尽早了解这些信息，<strong>应当在为这个故事编写代码前就开始制定验收测试</strong>。</p>
+<p>一般在下面这些时候写测试。</p>
+<ul>
+<li>开发人员和客户<strong>讨论故事且需要记录明确细节时</strong></li>
+<li>在迭代开始时，<strong>在写代码前作为一项专门的任务</strong></li>
+<li>在开发中或之后的<strong>任何时候发现新的测试时</strong></li>
+</ul>
+<p><strong>理想状况下，在客户和开发人员讨论故事的时候，他们把细节都写成测试</strong>。</p>
+<p>在迭代的开始时就要过一遍所有故事，写一些能想到的测试。比较好的做法是，考虑每个故事，然后问一些类似下面的问题。</p>
+<ul>
+<li>关于这个故事，<strong>程序员要知道什么</strong>？</li>
+<li>对于<strong>怎么实现</strong>这个故事，<strong>我的想法是什么</strong>？</li>
+<li>有没有<strong>一些特殊情况会使用这个故事有不一样的行为</strong>？</li>
+<li>这个故事<strong>什么情况下会出错</strong>？</li>
+</ul>
+<p>下面有一个真实项目的例子，一个扫描软件的故事。</p>
+<p>这个故事的作者清晰知道他的期望。</p>
+<blockquote>
+<p>例如： 在一个新的文档中打开新扫描的页面，即使软件已经打开了一个文档。</p>
+<p>这个例子中，这个期望被作为故事的一部分卸载卡片的正面。我们也可以轻松的将这个期望作为卡片背面的第一个测试。重要的是，在程序员开始实现这个故事前，通过故事卡片可以了解这个期望。</p>
+<p>否则，程序员很有可能写出不一样的软件行为，如将新扫描的页面插入到当前文档。</p>
+</blockquote>
+<p>那如果我们有了这样清晰的期望，我们应该<strong>告诉程序员你的期望</strong>。</p>
+<p>比如，我们可以这样描述我们的期望。</p>
+<blockquote>
+<p>用户可以扫描页面并将其插入新的文档。如果已经打开一个稳定，那么程序应该提示用户并关闭当前文档。</p>
+</blockquote>
+<h2 id="62-客户定义测试"><a class="header" href="#62-客户定义测试">6.2. 客户定义测试</a></h2>
+<p>既然软件时用来实现用户的愿景，验收测试当然就应当由客户来定义。</p>
+<p>客户可以和程序员和测试人员合作创建测试，但是<strong>客户至少应该给我们详细指出一些测试，用以验证故事的实现是正确的</strong>。</p>
+<p>另外，一个开发团队（特别是有资深测试人员的）经常还会定义其他的测试。</p>
+<h2 id="63-测试是过程的一部分"><a class="header" href="#63-测试是过程的一部分">6.3. 测试是过程的一部分</a></h2>
+<p>最近我和一家公司一起工作，这里测试人员对软件的理解都来自于程序员。</p>
+<blockquote>
+<p>程序员为新功能编写了代码，他们向测试人员解释这个功能，然后测试人员严重程序是否表现出所描述的行为。</p>
+</blockquote>
+<blockquote>
+<p>一般情况下，程序都能通过测试，但轮到用户开始使用时，却总出现这样那样的问题。</p>
+</blockquote>
+<blockquote>
+<p><strong>问题当然是出自测试人员总是按照程序员的描述去测试</strong>。如果没有客户或用户的参与，我们不会真正从他们的角度来测试软件。</p>
+</blockquote>
+<p><strong>测试是开发过程中的一部分，而不是在编码完成后要做的事</strong>，这点对使用用户故事非常重要。</p>
+<p>一般情况下，产品经理和测试人员共同负责列出详细的测试。<strong>产品经理带来驱动项目的公司目标的知识；测试人员则带来了怀疑的心态</strong>。</p>
+<p>在一轮迭代开始阶段，他们应该一起列出尽可能多的测试。但这还不够，也不是他们每周碰一次就足够了。随着故事细节逐步展现，往往又能找出更多的测试。</p>
+<h2 id="64-多少测试才算多"><a class="header" href="#64-多少测试才算多">6.4. 多少测试才算多？</a></h2>
+<p><strong>只要这些测试还在继续为故事增加价值和使它更加清晰，客户就应该继续写测试</strong>。</p>
+<blockquote>
+<p>如果针对“不能用过期万事达卡付费”这种情况已经写了一个测试，那就没有必要再为<code>Visa</code>卡写同样的测试。</p>
+</blockquote>
+<p>同时记住，一个优秀的开发团队会为很多详细的用例写单元测试。</p>
+<blockquote>
+<p>例如，开发团队应该制定能识别2月30日和6月31日不合法日期的单元测试。</p>
+</blockquote>
+<p>客户不负责定义所有可能的测试。可以<strong>应该更专注于那些能向开发团队说明故事意图的测试</strong>。</p>
+<h2 id="65-验收测试"><a class="header" href="#65-验收测试">6.5. 验收测试</a></h2>
+<p>客户团队负责引领系统的开发，而<strong>验收测试则向客户演示软件是可以接受的</strong>。</p>
+<p>这意味着客户团队应该执行验收测试。</p>
+<p>至少，<strong>在每轮迭代结束时应该执行验收测试</strong>。因为<strong>每轮迭代产生的可工作的代码在接下来的迭代开发中可能遭到破坏</strong>，所以每轮迭代都要<strong>执行以往迭代的所有验收测试是非常重要的</strong>。</p>
+<p>这样，每轮迭代都要花更多的时间来执行验收测试。如果可能，开发团队应该自动化部分或全部验收测试。</p>
+<h2 id="66-测试类型"><a class="header" href="#66-测试类型">6.6. 测试类型</a></h2>
+<p>测试类型有很多，客户和开发团队<strong>共同确保系统测试涵盖了项目所需要的不同类型的测试</strong>。</p>
+<p>对于大多数的系统来说，故事测试主要是功能性测试，用来确定应用程序是如预期一样的运行。不过，也应当考虑其他类型的测试。</p>
+<p>示例如下：</p>
+<ul>
+<li><strong>用户交互测试</strong>，确保所有用户交互组件如期工作</li>
+<li><strong>可用性测试</strong>，确保程序好用</li>
+<li><strong>性能测试</strong>，测量应用程序在各种负荷下的工作状况</li>
+<li><strong>压力测试</strong>，使应用程序在用户和事务的极限情况或其他任何让应用程序处在压力的情况下运行</li>
+</ul>
+<p><strong>测试的是缺陷，而不是覆盖率</strong></p>
+<p>在一个敏捷的、由故事驱动的项目中，测试并不像很多团队那样是一个对抗性的活动。发现缺陷时，不应该有“被我逮到了吧”这样的心态。</p>
+<p>在敏捷开发中，若有缺陷直到系统投产的时候才被发现，团队成员是不应该互相推卸责任的。高度协作的团队以及“我们共同负责”的心态能防范这种事情的发生。</p>
+<p>在敏捷项目中，<strong>测试的目的是发现并消除缺陷</strong>，所以没有必要追求100%的代码覆盖率或测试所有边界条件。我们运用我们的直觉、知识和过去的经验来指导测试。</p>
+<p>选择最合适的人来执行测试。客户应定义验收测试，但是需要开发人员和专职测试人员的帮助和信息。</p>
+<p>随着时间的推移，<strong>通过频繁的沟通和观察哪些类型的测试经常出现问题</strong>，项目中所有人都可以知道测试<strong>重点在哪些地方</strong>。</p>
+<h2 id="67-职责"><a class="header" href="#67-职责">6.7. 职责</a></h2>
+<h3 id="客户团队职责"><a class="header" href="#客户团队职责">客户团队职责</a></h3>
+<ul>
+<li>负责编写验收测试</li>
+<li>负责执行验收测试</li>
+</ul>
+<h3 id="开发人员职责"><a class="header" href="#开发人员职责">开发人员职责</a></h3>
+<ul>
+<li>若团队觉得有需要，则负责实现自动化验收测试</li>
+<li>开始开发一个新的故事时，负责考虑更多的验收测试</li>
+<li>负责为代码做单元测试，是验收测试不必顾及故事的每个细节</li>
+</ul>
+<h2 id="68-小结"><a class="header" href="#68-小结">6.8. 小结</a></h2>
+<ul>
+<li>验收测试可用用来记录客户和开发人员讨论的很多细节</li>
+<li>验收测试记录了有关故事的一些假设，这些假设可能还没有和开发人员讨论过</li>
+<li>验收测试提供了检查故事是否被完整实现的基本标准</li>
+<li>验收测试应由客户团队来编写而不是开发人员</li>
+<li>验收测试应该在程序员写代码之前就写好</li>
+<li>如果新的测试对阐明故事的细节或意图没有任何帮助，就不用在写了</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../ch5/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../ch7/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../ch5/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../ch7/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/simple-lightbox.min.js"></script>
+        <script type="text/javascript" src="../theme/theme.js"></script>
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+
+
+    </body>
+</html>

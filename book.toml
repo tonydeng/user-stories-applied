@@ -1,0 +1,34 @@
+[book]
+title = "敏捷的用户故事方法"
+description = "关于在敏捷开发中如何进行用户故事开发和编写的一些方法和实践"
+authors = ["Tony Deng"]
+language = "zh-CN"
+multilingual = true
+src = "."
+
+[preprocessor.theme]
+pagetoc = true
+turn-off = true
+root-font-size = "70%"
+sidebar-width = "120px"
+pagetoc-width = "15%"
+content-max-width = "80%"
+
+[output.html]
+additional-css = ["theme/simple-lightbox.css", "theme/theme.css", "theme/pagetoc.css"]
+additional-js = ["theme/simple-lightbox.min.js","theme/theme.js", "theme/pagetoc.js"]
+git-repository-url = "https://github.com/tonydeng/user-stories-applied"
+git-repository-icon = "fa-github"
+
+[output.html.fold]
+enable = false
+level = 0
+
+[output.html.playground]
+editable = true
+
+[output.html.print]
+enable = false
+
+[build]
+build-dir = "_book"

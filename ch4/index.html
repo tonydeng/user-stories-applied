@@ -1,0 +1,442 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>4. 收集故事 - 敏捷的用户故事方法</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="关于在敏捷开发中如何进行用户故事开发和编写的一些方法和实践">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/simple-lightbox.css">
+        <link rel="stylesheet" href="../theme/theme.css">
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> 敏捷的用户故事方法</a></li><li class="chapter-item expanded "><a href="ch1/index.html"><strong aria-hidden="true">2.</strong> 1. 什么是用户故事？</a></li><li class="chapter-item expanded "><a href="ch2/index.html"><strong aria-hidden="true">3.</strong> 2. 编写故事</a></li><li class="chapter-item expanded "><a href="ch3/index.html"><strong aria-hidden="true">4.</strong> 3. 用户角色建模</a></li><li class="chapter-item expanded "><a href="ch4/index.html"><strong aria-hidden="true">5.</strong> 4. 收集故事</a></li><li class="chapter-item expanded "><a href="ch5/index.html"><strong aria-hidden="true">6.</strong> 5. 与用户代理合作</a></li><li class="chapter-item expanded "><a href="ch6/index.html"><strong aria-hidden="true">7.</strong> 6. 用户故事验收测试</a></li><li class="chapter-item expanded "><a href="ch7/index.html"><strong aria-hidden="true">8.</strong> 7. 优秀的用户故事准则</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">敏捷的用户故事方法</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/tonydeng/user-stories-applied" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <h1 id="4-收集故事"><a class="header" href="#4-收集故事">4. 收集故事</a></h1>
+<p><img src="images/sanqizhouyu.jpeg" alt="三气周瑜" /></p>
+<p>你是怎么收集故事的？</p>
+<p>接下来咱们聊聊<strong>如何和用户一起工作</strong>，如何通过<strong>与他们沟通来发现故事</strong>。</p>
+<p>同时介绍各种方法的优点，怎样<strong>提出恰当的问题</strong>，从而**获得用户真正的需求*。</p>
+<h2 id="41-用拖网来收集需求"><a class="header" href="#41-用拖网来收集需求">4.1. 用“拖网”来收集需求</a></h2>
+<p>一些需求相关的书中用到了像“引出”(<code>Kovitz 1999</code>; <code>Lauesen 2002</code>; <code>Wiegers 1999</code>)和“捕捉”(<code>Jacobson</code>, <code>Booch</code>和<code>Rumbaugh 1999</code>)这样的词来描述识别与确认需求的实践。</p>
+<p>不过这样的术语给我们一种<strong>错觉</strong>：“需求本来已经存在了，我们只要让客户给我们解释需求，然后把它们锁到一个笼子里就可以了。”很多需求并不容易想到。同样，<strong>用户并不知道所有需求</strong>，所以不能单纯依靠引出(<code>elicitaion</code>)。</p>
+<p>我们可以用另外一个词--<strong>拖网</strong>(<code>trawling</code>)这个词来描述收集需求的过程。怎么理解呢？<strong>要像“拖网渔船捕捞鱼”那样收集需求</strong>。</p>
+<p><img src="images/trawlnet.gif" alt="拖网" /></p>
+<p>为什么要用这样的比喻呢？理由如下：</p>
+<ul>
+<li>
+<p>首先，<strong>不同大小的网用来捕获不同大小的需求</strong>。第一遍，我们可以用大网眼的渔网捞一遍需求池，以此得到所有的大需求。通过大需求，形成对产品的整体感觉。接下来，用网眼小一些的渔网得到中等大小的需求，展示还不用顾及到那些小需求。在这个比喻中，<strong>大小可以是对此产品的商业价值高低或必要性程度</strong>等。</p>
+</li>
+<li>
+<p>其次，拖网表达了另一个含义:<strong>需求会像🐟一样，会生长，也可能会死亡</strong>。今天渔网可能会漏掉一个需求，因为这个需求对于系统来说不重要。但是，根据每轮迭代的反馈，系统会朝着事先不可预知的方向发展，有些需求会变得越来越重要。同样，有些曾经被认为重要的需求，重要性可能会降低，有时甚至降低到我们认为这些需求已经无效了。</p>
+</li>
+<li>
+<p>第三，正如在<strong>某些区域拖网捕鱼不可能捕到所有的🐟，我们也不可能捕捉到所有的需求</strong>。另外，在拖网捕捞需求的时候，也可能捞到一些废弃的货物或漂浮的残骸，他们使需求膨胀。</p>
+</li>
+<li>
+<p>最后，这个拖网捕捞需求的比喻还说明了一个重要的现实：<strong>技能也是发现需求的一个要素</strong>。一个熟练的需求分析人员（<code>requirements trawler</code>）知道要到哪里去找需求，而不熟练的需求分析人员只会用低效的方法或在错误的地方浪费时间。</p>
+</li>
+</ul>
+<p>那我们接下来看看有哪些更有效“捞”到用户故事的方法。</p>
+<h2 id="42-够用就行不是吗"><a class="header" href="#42-够用就行不是吗">4.2. 够用就行，不是吗？</a></h2>
+<p><strong>辨别传统规范过程和敏捷过程最简单的方法之一，是看它们收集需求的方式。</strong></p>
+<p>传统规范过程的特征是它过分强调在项目早期正确的获取并写出所有的需求。与此不同的是，敏捷项目则承认没有一种理想的方法可以在一个单一阶段获取到所有的用户故事。</p>
+<p>敏捷过程也承认用户故事有一个<strong>时间维度</strong>： <strong>随着时间的推移以及先前迭代中加入产品的故事，一个故事的相关性(<code>relevance</code>)会有变化</strong>。</p>
+<p>然而，即使我们承认无法为一个项目编写出所有的故事，我们还是应该在早期尝试编写我们可以编写的故事，即使许多故事还只能停留在十分笼统的阶段。</p>
+<p>使用故事的好处之一就是<strong>可以用不同的详尽程度来编写</strong>。我们可以写下“用户可以搜索故事”这样的故事，无论是作为一个占位符，亦或此时我们只是了解到这个程度，这个故事都是恰当的(<code>placeholder</code>)。我们可以在<strong>今后将它演进为更小的、更有用的多个故事</strong>。</p>
+<p>因此，对应用程序的大部分功能编写故事是非常容易的，其工作量少于用其他方法收集故事。</p>
+<p>这并不是鼓励大家在开始一个新项目时花3个月时间来编写用户故事。相反，它要求大家<strong>展望未来的一个发布（大概3-6个月）的时间，故事发布的时间越往后，我们越不需要编写的那么详细</strong>。</p>
+<blockquote>
+<p>例如，如果客户或用户说过他们“很可能在此次发布中想要报表功能”，那么简单的在一张卡片上写下“用户可以运行报表”。但是可以就此打住：先不用决定他们是否需要配置自己的报表，报表是否以HTML格式输出，或者是否可以保存报表。</p>
+</blockquote>
+<p>在<strong>项目启动之前，对应用程序的大小有一个大致的了解是很重要的</strong>。通常在对项目拨款以及批准启动它之前，<strong>有必要粗略的了解</strong>一下项目的<strong>成本</strong>和它能够带来的<strong>效益</strong>。为了获知这些问题的答案，需要对项目包含的故事进行初步的深谋远虑。</p>
+<h2 id="43-方法"><a class="header" href="#43-方法">4.3. 方法</a></h2>
+<p>因为<strong>故事会随着项目的进展而演进</strong>，所以我们需要一些<strong>可以反复使用的方法来收集故事</strong>。我们使用的技巧<strong>必须是足够轻量的，并且不咄咄逼人，可以持续的、或多或少的应用于故事收集</strong>。</p>
+<p>接下来我们会聊一些是创建故事的方法。这些方法有很多是传统业务分析师所使用的。对于配备有业务分析师的项目，应该充分利用他们以“<strong>拖网捕鱼</strong>”的方式来收集故事。</p>
+<h3 id="431-用户访谈"><a class="header" href="#431-用户访谈">4.3.1. 用户访谈</a></h3>
+<p><img src="images/user-interview.jpg" alt="用户访谈" /></p>
+<p><strong>用户访谈是许多团队用来获取故事的默认方法</strong>，很可能这也是你想使用的方法。</p>
+<p>访谈成功的关键之一是<strong>选择正确的受访者</strong>。如同我们接下来要聊的“<a href="../ch5/">与用户代理一起工作</a>”那样，有许多用户代理可以做访谈。但是显然，<strong>只要有可能，就应该访谈真实用户。还应该访问担任不同角色的用户</strong>。</p>
+<p>有一次，一位用户走进我们办公室对我说：“你们的确开发了我所需要的应用，但它并不是我真正想要的”。这件事让我明白一点，<strong>只询问用户“你们需要什么”是不够的，大部分用户还不善于理解，更难以表达他们真实需求</strong>。</p>
+<blockquote>
+<p>我曾经和一个团队一起工作，他们要开发一个调查速递软件。每个调查会通过电话、电子邮件和交互式语音应答系统来进行。不同类型的用户会使用不同类型的调查。
+这些调查非常复杂：对于一组问题的回答将决定下一个问题是什么。用户需要输入调查的方法，他们向开发团队演示一些例子，建议用一种复杂的迷你型语言来确定问题。
+这种完全基于文本的方法，对于开发人员来说增加了不必要的复杂度。开发人员向用户展示了他们可以通过可视化的图标拖拽来创建调查，不同的图标代表了调查中的不同类型的问题。
+之后用户放弃了他们迷你型的语言，并和开发人员一起开发可视化的调查设计工具。</p>
+</blockquote>
+<p>这说明了一点：<strong>仅仅因为这些问题是用户提出来就认为只有用户才有资格提出解决方案，这种观念是不对的</strong>。</p>
+<h4 id="开放式问题和背景无关问题"><a class="header" href="#开放式问题和背景无关问题">开放式问题和背景无关问题</a></h4>
+<p><strong>想要获取用户的本质需求，最好的技巧就是提问</strong>。</p>
+<p>我曾经与一个项目小组一起工作，他们在把应用程序开发成Web程序和开发成更传统的平台相关程序之间举棋不定。</p>
+<p>基于浏览器的程序更容易部署，而且培训成本比较低；而与平台相关的客户端程序则更加健壮，两者如何选择？用户一定会喜欢浏览器的优势，但他们也重视特定平台客户端程序丰富的用户体验。</p>
+<p>有人建议，询问一下目标用户的喜好。由于这个产品是对上一代产品的重新编写，所以市场部同意与目前的产品客户代表取得联系。询问每个接受调查的用户：“你们想在浏览器运行新的应用程序吗？”</p>
+<blockquote>
+<p>这个问题就像是你去最喜欢的餐厅，服务员问你是否想要免费餐。</p>
+</blockquote>
+<p>设计问题的人犯了一个错误，他们询问了一个封闭式问题，没有提供足够的细节让对方更好的回答。这个问题假设了接受调查的用户知道浏览器方案和未明确说明的代替方案之间的优缺点。</p>
+<p>这个提问最好的版本是：</p>
+<blockquote>
+<p>你想我们新的应用在浏览器里运行，而不是本地窗口程序吗？即使这意味着性能有所减弱，总体上用户体验会差一些，交互也少一些。</p>
+</blockquote>
+<p>这个提问仍然有问题，因为它还是<strong>封闭式</strong>的。<strong>调查对象只能回答简单的是或否，没有余地去回答其他的东西</strong>。</p>
+<p>询问开放式的问题要好很多，这可以让调查对象表达更深入的意见。比如：“为了让我们下一代产品运行在浏览器上，你愿意舍弃什么？”针对这个问题的用户可能回答有很多种。无论是哪种回答，对我们都更有意义。</p>
+<p>同样重要的是要提<strong>背景无关的问题</strong>，这种提问<strong>没有暗含什么答案或喜好</strong>。比如，你不应该问：“你不会愿意为了软件在浏览器上运行，而牺牲性能和丰富的用户体验，对吗？”很明显，我么知道大部分会怎么回答。</p>
+<p>类似的，不要问“搜索速度需要多快？”，而要问“需要怎样的性能？”或者“性能在应用程序中的某些部分更会重要吗？”</p>
+<p>第一个提问不是一个背景无关的问题，因为它包含了有一个需求是关于搜索性能的。要么没有人这么问用户，一旦问了，他的回答可能是猜想出来。</p>
+<p><strong>某些时候，需要使用非常具体的问题</strong>。当然，<strong>最好是从背景无关的问题开始提问</strong>，这样就有可能从用户那儿获得更多样化的回答。如果从非常具体的问题开始，则很可能漏掉很多故事。</p>
+<h3 id="432-问卷调查"><a class="header" href="#432-问卷调查">4.3.2. 问卷调查</a></h3>
+<p><img src="images/survey.gif" alt="问卷调查" /></p>
+<p>问卷调查就是一种有效的方法，<strong>有助于收集已有故事的相关信息</strong>。</p>
+<p><strong>若你有一个庞大的用户群，那么问卷就是收集有关故事优先级信息的好方法</strong>。在需要得到大量用户关于某些具体问题的回答是，问卷是非常有用的。</p>
+<p>然而，<strong>问卷不适合作为拖网捕获新故事的主要方法</strong>。使用静态的问卷不利于跟进后续问题。同样，不能通过谈话方式那样，很方便的立即对用户的有趣想法进行深入探讨。</p>
+<p>举一个使用问卷的例子，你可以调查用户今天使用软件功能的频率，以及为什么有些功能用的比较少。这样就可以将那些使用频率比较高的故事优先级调高了。</p>
+<blockquote>
+<p>另一个例子，“什么新功能你最想看到”这样的问卷问题价值就比较低。如果给用户一些选择，就可能错过几个自己没有想到过的关键功能；如果让用户自己用自由格式提供回答，就很难归纳多个问题。</p>
+</blockquote>
+<p>鉴于单向沟通的既有特点和时间滞后，我不建议在捕获故事时使用问卷调查。</p>
+<p>假如想<strong>从已有的广泛用户群收集信息</strong>，而<strong>愿意等待</strong>一个或多轮迭代来分析收集到的信息，则<strong>可以使用问卷</strong>，但<strong>不要把它作为捕获故事的主要方法</strong>。</p>
+<h3 id="433-观察"><a class="header" href="#433-观察">4.3.3. 观察</a></h3>
+<p><img src="images/observe.jpg" alt="观察" /></p>
+<p><strong>观察用户实际使用软件的情况</strong>，这个方法非常不错。</p>
+<p>每次我看到有人使用我的软件，我都会获得很多提高用户体验或生产力的想法。不幸的是，能观察用户使用情况的机会少之又少，除非为内部客户开发。</p>
+<p>太多商业产品开发采用的方法都是<strong>猜测用户需求</strong>。</p>
+<p>因此，如果有机会观察用户使用软件的情况，千万不要错过。这种机会可以让你<strong>快速直接从用户那里获得反馈</strong>，从而可以更早更频繁的发布软件。</p>
+<blockquote>
+<p>曾经有一个公司的用户是在呼叫中心的护士。他们负责回答来电咨询的医学问题。护士指出他们需要一个大文本框，在通话结束后，能够用它来记录通话结果。软件最初的版本中，在接电话时有一个覆盖屏幕的大文本框。然而，该版本发布后，每一个开发人员话一个天时间观察用户。他们发现用户在大文本框中输入的内容其实可以让系统来跟踪记录。通过观察，开发人员发现真正的需求是系统应记录用户在使用软件过程中所做的决定。</p>
+<p>后来，开发人员用一个日志功能替换了文本框，该功能记录护士所有的搜索和选择的建议。这个才是真正的需求，记录所有给来电者的解答。</p>
+</blockquote>
+<p>这个真正的需求由于最初护士对需求的描述而变得很不清晰，只有<strong>通过观察才能发现</strong>。</p>
+<h2 id="434-故事编写工作坊"><a class="header" href="#434-故事编写工作坊">4.3.4. 故事编写工作坊</a></h2>
+<p><img src="images/workshop.png" alt="故事编写工作坊" /></p>
+<p><strong>故事编写工作坊是开发人员、用户、产品和其他对编写故事有帮助的人共同参加的会议</strong>。</p>
+<p>在工作坊期间，参与人员编写尽可能多的故事，此时不对故事排优先级。</p>
+<p>正确举办故事编写工作坊可以非常快速的编写大量故事。<strong>良好的故事编写工作坊结合了头脑风暴的最佳要素和简单原型法</strong>。可以把一个简单原型画在纸上，笔记本上，白板上，并画出软件内部高层之间的交互。在工作坊中，随着参与者对用户在使用软件过程中可能要做的事情进行头脑风暴，不断构建原型。这并不是像传统原型法或联合应用设计中，要确定实际界面和字段，只是为了<strong>从概念上确定工作流</strong>。</p>
+<h3 id="故事与简单原型"><a class="header" href="#故事与简单原型">故事与简单原型</a></h3>
+<p>比如，下面就是通过故事编写工作坊整理的招聘网站的简单原型。</p>
+<p><img src="images/simple-mockup.png" alt="招聘网站简单原型" /></p>
+<p>其中：</p>
+<ul>
+<li>每个方框代表着网站的一个新组件</li>
+<li>方框中带有加粗的文字是组件的标题</li>
+<li>标题下面是组件要做的和包含的列表</li>
+<li>方框间的箭头标示组件间的链接</li>
+</ul>
+<p>对于一个网站，组件可能是一个新的页面或当前页面的一块区域。所以，每一个链接意味着弹出一个新页面或者在同一个页面上显示信息。</p>
+<blockquote>
+<p>比如，搜索工作可能是一个页面或者首页上的一块区域。</p>
+</blockquote>
+<p>开始画原型前，首先要决定从哪种用户角色开始。需要用每个角色来重复这个过程，不论什么顺序。然后，画一个空的方框，告诉参与者这是软件的主界面，询问他们当前这个用户角色能在这个界面做什么。即使你现在还不知道主界面是什么，有什么用，这也没有关系。参与者会想出角色会做什么。对角色做的每一件事情，画一条指向一个新的方框，然后写一个故事。</p>
+<p>比如上面的图，我们可以得出以下故事：</p>
+<ul>
+<li>求职者可以发布他的简历</li>
+<li>雇主可以发布工作</li>
+<li>求职者可以搜索工作</li>
+<li>求职者可以看到搜索条件的工作</li>
+<li>求职者可以看到指定工作的详细信息</li>
+</ul>
+<p>这些故事都不需要界面是该如何设计。但是，<strong>走一遍流程</strong>可以帮助大家想出尽可能多的故事。</p>
+<p>我发现<strong>深度优先的方法最有效</strong>：</p>
+<blockquote>
+<p>对于第一个组件，写下主要的细节，接着是与第一个组件相连的组件B，一样写下其主要的细节。然后是与B相连的组件，而不是回到第一个组件A，描述其他与A相连的组件。</p>
+</blockquote>
+<p>广度优先的办法非常不容易理解，因为<strong>很难记住自己刚才在哪条功能线上</strong>。</p>
+<p>另外，我们要尽快<strong>扔掉简单原型</strong></p>
+<blockquote>
+<p>在画好简单原型后的几天内，一定要扔掉或擦掉它、
+原型并不是开发流程中的一个长期工件，因为长期留着可能会导致不必要的困惑。
+如果觉得在故事编写工作坊中还有发现所有故事，可以把原型保留几天，再看看是否还能写出一些漏掉的故事，然后再考虑扔掉它。</p>
+</blockquote>
+<p>在画原型的过程中，<strong>问一些有助于找到遗漏故事的问题</strong>，示例如下：</p>
+<ul>
+<li>用户接下来最有可能做什么？</li>
+<li>用户会在这里犯什么错误？</li>
+<li>在这里，用户会有什么困惑？</li>
+<li>用户需要什么额外的信息？</li>
+</ul>
+<p>在问这些问题是，考虑一下当时用户的角色。<strong>许多答案都和用户当时角色有关</strong>。</p>
+<h4 id="原则"><a class="header" href="#原则">原则</a></h4>
+<p>在故事编写工作坊期间，我们有一些工作的<strong>原则</strong>需要大家都<strong>了解并且遵守</strong>：</p>
+<ol>
+<li>应该把重点放在数量上，而不是质量上。</li>
+<li>即使最后会用电子方式保存故事，但在工作坊里最好还是使用卡片。</li>
+<li>只需把想法记录下来就行。最初大家觉得不好的故事经过几个小时后可能会变得很棒，或者会激发我们相处其他故事。</li>
+<li>不要为每个故事都陷入长时间的讨论中。</li>
+<li>如果一个故事是多余或者能被更好的故事替换，就扔掉这个故事。</li>
+</ol>
+<h4 id="小技巧"><a class="header" href="#小技巧">小技巧</a></h4>
+<p>另外，还有一些<strong>小技巧</strong>能够让工作坊进行的更加顺利。</p>
+<ol>
+<li>可以维护一个待办问题列表，将一些当前不是最重要的故事记录其中，留着以后再来解决。</li>
+<li>如果我们卡在某个点过不去，这时不妨看看竞争对手的产品或类似的产品。</li>
+<li>留意在工作坊中成员的贡献。有些参与者在大部分或者整个期间都保持沉默，可以在中间休息的时候和这个参与者谈谈，确定他并不是不适宜这个过程。要让参与者觉得大家只是在记录而不是评价故事，会更乐于参与。</li>
+</ol>
+<p>最后，再次重申故事编写工作坊中的讨论应该在<strong>较高层面</strong>上。我们的<strong>目的是在短时间内写出更多的故事</strong>。这不是设计界面或解决问题的时候。</p>
+<h2 id="44-职责"><a class="header" href="#44-职责">4.4. 职责</a></h2>
+<h3 id="客户团队职责"><a class="header" href="#客户团队职责">客户团队职责</a></h3>
+<ul>
+<li>负责理解并使用多种技巧捕捞用户故事</li>
+<li>负责尽早写更多的故事</li>
+<li>作为软件用户的主要代表，负责和他们多沟通</li>
+<li>了解怎么使用开发式和背景无关的提问</li>
+<li>如果需要关于编写故事的帮助，负责安排并举办一场或多次故事编写工作坊</li>
+<li>负责确保捕捞故事过程中考虑所有用户角色</li>
+</ul>
+<h3 id="开发人员职责"><a class="header" href="#开发人员职责">开发人员职责</a></h3>
+<ul>
+<li>负责理解并使用各种技巧来捕捞用户故事</li>
+<li>负责知道怎么使用开放式和背景无关的提问</li>
+</ul>
+<h2 id="45-小结"><a class="header" href="#45-小结">4.5. 小结</a></h2>
+<ul>
+<li>能够引出及捕捉需求这一想法是错误的。它有两个问题的假设：用户知道所有的需求；需求一旦捕捉，就锁定，不在改变。</li>
+<li>拖网捕鱼的比喻是非常有用：它说明了需求由不同的大小，需求会随着时间的推移变化，需要一些技巧来发现需求。</li>
+<li>即使敏捷流程支持需求的后期涌现，依然需要对预期的发布进行展望并开始写下容易发现的故事。</li>
+<li>我们可以通过用户访谈、观察用户、问卷调查和举办故事编写工作坊来发现用户故事。</li>
+<li>使用多种方法比过度使用一种更能获得好的效果。</li>
+<li>通过开放式、与背景无关的提问更容易获得有用的答案，例如，“告诉我你想怎么搜索工作？”就胜于“你要通过职位名称来搜索工作吗？”</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../ch3/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../ch5/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../ch3/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../ch5/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/simple-lightbox.min.js"></script>
+        <script type="text/javascript" src="../theme/theme.js"></script>
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+
+
+    </body>
+</html>

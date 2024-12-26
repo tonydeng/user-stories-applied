@@ -1,0 +1,425 @@
+<!DOCTYPE HTML>
+<html lang="zh-CN" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>3. 用户角色建模 - 敏捷的用户故事方法</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="关于在敏捷开发中如何进行用户故事开发和编写的一些方法和实践">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../theme/simple-lightbox.css">
+        <link rel="stylesheet" href="../theme/theme.css">
+        <link rel="stylesheet" href="../theme/pagetoc.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="index.html"><strong aria-hidden="true">1.</strong> 敏捷的用户故事方法</a></li><li class="chapter-item expanded "><a href="ch1/index.html"><strong aria-hidden="true">2.</strong> 1. 什么是用户故事？</a></li><li class="chapter-item expanded "><a href="ch2/index.html"><strong aria-hidden="true">3.</strong> 2. 编写故事</a></li><li class="chapter-item expanded "><a href="ch3/index.html"><strong aria-hidden="true">4.</strong> 3. 用户角色建模</a></li><li class="chapter-item expanded "><a href="ch4/index.html"><strong aria-hidden="true">5.</strong> 4. 收集故事</a></li><li class="chapter-item expanded "><a href="ch5/index.html"><strong aria-hidden="true">6.</strong> 5. 与用户代理合作</a></li><li class="chapter-item expanded "><a href="ch6/index.html"><strong aria-hidden="true">7.</strong> 6. 用户故事验收测试</a></li><li class="chapter-item expanded "><a href="ch7/index.html"><strong aria-hidden="true">8.</strong> 7. 优秀的用户故事准则</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">敏捷的用户故事方法</h1>
+
+                    <div class="right-buttons">
+                        <a href="https://github.com/tonydeng/user-stories-applied" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <!-- Page table of contents -->
+                        <div class="sidetoc"><nav class="pagetoc"></nav></div>
+
+                        <h1 id="3-用户角色建模"><a class="header" href="#3-用户角色建模">3. 用户角色建模</a></h1>
+<p><img src="images/user-modeling.jpg" alt="用户角色模型" /></p>
+<p>在很多项目中，需求分析人员只从一个角度来写用户故事， 这样往往会忽略一些需求（故事），因为有些故事针对的不是系统的一般用户。</p>
+<p>以<strong>用户为中心的设计</strong>(<code>user-centered design, Constantine and Lockwood, 1999</code>)和<strong>交互设计</strong>(<code>interaction design, Cooper, 1999</code>)的规则使我们懂得，在编写故事前识别用户角色和虚构人物(<code>persona</code>)有很多好处。</p>
+<p>我们接下来将要讨论如何利用<strong>用户角色</strong>、<strong>角色建模</strong>、<strong>角色映射</strong>和<strong>虚构人物</strong>这些初始步骤来编写更好的故事，开发更好的软件。</p>
+<h2 id="31-用户角色"><a class="header" href="#31-用户角色">3.1. 用户角色</a></h2>
+<h3 id="用户是谁"><a class="header" href="#用户是谁">用户是谁？</a></h3>
+<p>假设，我们依然从可以招聘网站谈起，这类网站会有许多中<strong>不同类型的用户</strong>。</p>
+<p>当我们谈起“用户故事”时，我们说的<strong>用户是谁</strong>？</p>
+<blockquote>
+<p>我们是在谈论<code>张无忌</code>吗？他现在“骑驴找马”总在留意更好的工作。是<code>殷离</code>吗？她是大学应届毕业生，正在找第一份工作。还是<code>杨逍</code>？他将接受任何工作，只要那份工作可以让他搬到昆仑山光明顶。或是<code>韦一笑</code>？他不讨厌现在的工作，但他觉得是时候换一份工作了。也许我们讨论的是<code>丁敏君</code>，她六个月前被裁员了，正在找一份工作地点在峨眉山的工作。</p>
+</blockquote>
+<p>或许我们应该考虑一下需要发布工作的公司内的用户？</p>
+<blockquote>
+<p>用户可能是<code>灭绝师太</code>，她来自于峨眉派的人力资源部，由她来发布工作信息。或者是<code>孤鸿子</code>，他也在峨眉派的人力资源部工作，但是他的职责是审核简历。或者是<code>黛绮丝</code>，她是独立的猎头，同时关注好工作和优秀人才。</p>
+</blockquote>
+<p>显然，我们不能从单一的角度来编写故事，要让这些故事反应所有这些用户的经历、背景和目标是不现实的。</p>
+<ul>
+<li><code>张无忌</code>，会计师，可能每个月只上一次我们的网站，以保留他选择的余地</li>
+<li><code>杨逍</code>，服务员，可能想创建一个过滤器。此过滤器可以第一时间通知他光明顶上有新的工作发布。除非我们提供这个功能，要不然他实现不了这个想法。</li>
+<li><code>丁敏君</code>，可能每天花几个小时来寻找工作，并不断扩大她的搜索范围。</li>
+<li><code>灭绝师太</code>和<code>孤鸿子</code>他们的公司比较大，有很多职位需要他们填补，那么他们可能要在我们网站上消耗4个小时，甚至更多。</li>
+</ul>
+<h3 id="什么是用户角色"><a class="header" href="#什么是用户角色">什么是用户角色</a></h3>
+<p>虽然用户有着不同的背景，有不同的目标，但我们仍然可以把这些单独的客户进行分组，把每一类作为一种“用户角色(<code>User Role</code>)”。</p>
+<p><strong>用户角色是一组属性的集合，这些属性刻画了一群人的特征以及这群人与系统可能的交互。</strong></p>
+<p>我么可以看看之前例子中的用户，将他们进行角色分组：</p>
+<div class="table-wrapper"><table><thead><tr><th>类型</th><th>姓名</th></tr></thead><tbody>
+<tr><td>求职者</td><td>韦一笑</td></tr>
+<tr><td>初次求职者</td><td>殷离</td></tr>
+<tr><td>裁员受害者</td><td>丁敏君</td></tr>
+<tr><td>工作地点搜索者</td><td>杨逍</td></tr>
+<tr><td>监视者</td><td>张无忌</td></tr>
+<tr><td>工作发布者</td><td>灭绝师太、黛绮丝</td></tr>
+<tr><td>简历阅读者</td><td>孤鸿子、黛绮丝</td></tr>
+</tbody></table>
+</div>
+<blockquote>
+<p>上面这个表并不是对招聘网站的用户进行角色分组的唯一方式。例如，可以包含诸如兼职者、全职者和合同工等角色。</p>
+</blockquote>
+<p>显然，针对不同用户角色的故事之间会有些重复。求职者、初次求职者、裁员受害者、工作地点搜索者和关注者都会使用网站的工作搜索特性，但是他们使用搜索功能的方式和频率可能会不同，针对简历阅读者和工作发布者的故事也可能重复，因为这些角色的目标都是找到好的候选人。</p>
+<h2 id="32-角色建模的步骤"><a class="header" href="#32-角色建模的步骤">3.2. 角色建模的步骤</a></h2>
+<p>我们将使用下面的步骤来<strong>识别、选择有用的用户角色集合</strong>。</p>
+<h3 id="1-通过头脑风暴列出初始的用户角色集合"><a class="header" href="#1-通过头脑风暴列出初始的用户角色集合">1. 通过头脑风暴，列出初始的用户角色集合</a></h3>
+<p>为了识别用户角色，客户和开发人员（多多益善）聚集在一个房间里，房间里要有一张大桌子或一堵墙，这样他们就有地方粘贴或固定卡片。</p>
+<p>理想情况是在项目启动时，把团队所有成员聚集在一起进行用户角色建模，但这并不是必须的，只要有一定数量的开发人员和客户一同参与，会议往往能取得成功。</p>
+<p>每个参与者从桌子中间堆放的记录卡中取出一叠（即打算用电子文档来记录用户角色，也应该从手写记录开始）。每个人先在卡片上写下角色名称，然后把他们放在桌子上，或者贴在墙上。</p>
+<p>放上新的角色卡片后，作者只说出新角色的名字，不做其它任何事情。这个会议只做头脑风暴，无需对卡片进行讨论，也不需要对角色进行评估。</p>
+<p>每个人要做的至少尽量在卡片上写出自己想到的角色。不需要让大家轮流给出新的角色。想到一个新角色就把它写到卡片上。</p>
+<p>在头脑风暴过程中，房间里会充满书写卡片的声音，偶尔夹杂着放置新卡片或朗读角色名称的声音。这样继续下去直到大家没有新的进展，并且很难再相出新的角色。</p>
+<p>尽管此时有可能还没有找到所有的角色，但其实已经很接近了。这样的头脑风暴很少会超过15分钟。</p>
+<blockquote>
+<p>一个用户角色是一个用户</p>
+</blockquote>
+<p>对项目的角色进行头脑风暴时，要坚持“<strong>已确认的角色代表的是单一用户</strong>”的原则。</p>
+<h3 id="2-整理最初的角色集合"><a class="header" href="#2-整理最初的角色集合">2. 整理最初的角色集合</a></h3>
+<p>接下来需要<strong>整理</strong>这些角色了。</p>
+<p>在桌子上或墙上移动卡片的位置，以表明角色之间的关系。对于有重叠的角色，把它们对应的卡片也重叠到一起。如果角色只有一点点重叠，那么卡片也只重叠一点点。如果角色完全重叠，那么卡片也完全重叠。</p>
+<p><img src="images/init-role-collections.png" alt="最初的角色集合" /></p>
+<blockquote>
+<p>上面的图中显示了这样的角色之间的关系</p>
+</blockquote>
+<ul>
+<li>“大学毕业生”和“初次找工作者”，他们的角色有显著的重叠</li>
+<li>其他将使用工作搜索功能的人而言，它们的角色卡片也有较小但类似的重叠</li>
+<li>“监视者”的角色卡片与其他卡片仅仅稍有重叠，因为这个角色代表的是那些对现有工作相对满意的人，但他们同时有喜欢留意好的机会</li>
+<li>右侧角色是“工作发布者”、“招聘人员”和“简历阅读者”的角色卡片，由于“招聘者”既需要发布招聘广告，也会阅读简历</li>
+<li>“管理者”角色也在其中展示，这个代表这个招聘网站的内部用户，他们要支持这个网站的运营</li>
+</ul>
+<h4 id="系统角色"><a class="header" href="#系统角色">系统角色</a></h4>
+<p>尽量坚持一个原则：<strong>用户角色定义的是人，而不是其他外部系统</strong>。如果觉得有必要，可以偶尔引入一个非人物的<strong>系统角色</strong>(non-human user role)。然而，确认用户角色的目的是确保我们很周到的为用户考虑，我们要绝对的、积极地让用户对新系统感到免疫，我们不需要为每一个可以想到的系统用户简历角色，但需要那些能影响项目或成败的角色。</p>
+<p>由于其他外部系统很少回事我们系统的购买者，它们很少能决定我们系统的成败。</p>
+<p>不过，事情总有例外，如果觉得加入一个非人物的系统就是有助于思考系统，将它加入也未尝不可。</p>
+<h3 id="3-整理角色"><a class="header" href="#3-整理角色">3. 整理角色</a></h3>
+<p>在角色分组完成后，需要试着<strong>整合和合并</strong>角色了。可以从完全重叠的卡片入手。</p>
+<p>首先，这些卡片的作者描述一下他们的角色名究竟代表什么，在简短的小组讨论之后，再判断这些角色是否等同。如果等同，那么这些角色要么合并成单一的角色（也行可以根据这两个初始的角色名去一个新的名字），要么丢弃掉其中一张角色卡。</p>
+<p>从<a href="#2-%E6%95%B4%E7%90%86%E6%9C%80%E5%88%9D%E7%9A%84%E8%A7%92%E8%89%B2%E9%9B%86%E5%90%88">整理最初的角色集合</a>的图中可以看到“大学毕业生”和“初次找工作者”这两个角色有很大重叠，基本这两个角色的故事都是相同的，所以决定丢弃“大学毕业生”角色卡。</p>
+<p>虽然“初次找工作者”、“裁员受害者”、“工作地点搜索者”和“求职者”有显著的重叠，但是还是决定留下它们，是因为这些角色<strong>每个都代表了系统需要满足的重点方面</strong>。这些角色也使得网站的目标也有微妙的不同，这很重要。</p>
+<p>图的右侧，小组认为<strong>区分“简历发布者”和“简历阅读者”没有什么价值</strong>。所以决定，<strong>“招聘者”这个角色会充分覆盖另外两个角色</strong>，所以这两个角色的卡片被抛弃。然后小组觉得内部招聘者（为某个公司工作）和外部招聘者（为任何公司寻找合适的人选）有所不同。他们为内部招聘者和外部招聘者都写了新的卡片，并将这两个角色当成招聘者角色的特殊版本。</p>
+<p>除了需要合并重叠的角色外，小组还应该<strong>丢弃那些对系统成功不太重要的角色卡</strong>。例如，“监视者”角色卡代表了哪些只关注工作市场的人，他们可能好几年都不换工作。即使不关注这样的角色，网站也能做的很出色。</p>
+<p>他们认定<strong>最好能关注那些对公司成功更重要的角色</strong>，比如“求职者”和“招聘者”角色。</p>
+<p><strong>最终整理的角色卡组合</strong></p>
+<p><img src="images/integrated-role-card.png" alt="整理角色卡" /></p>
+<h3 id="4-提炼角色"><a class="header" href="#4-提炼角色">4. 提炼角色</a></h3>
+<p>一旦我们整合好角色，并对角色之间的关系有了一个基本的了解，就可以能通过<strong>给每个角色定义一些特征来建立角色的模型</strong>。</p>
+<p><strong>角色特征是关于同属于这一类的用户事实或者有用信息。</strong></p>
+<p>这里有一些适用于任何角色建模的角色特征：</p>
+<ul>
+<li>用户使用软件的频率</li>
+<li>用户在相应领域的知识水平</li>
+<li>用户使用计算机和软件的总体水平</li>
+<li>用户对当前正在开发的软件的熟悉程度</li>
+<li>用户使用该软件的总体目标。有些用户注重使用的便捷性，有些关注丰富的用户体验，等等。</li>
+</ul>
+<p>除了这些标准的特征，应该考虑对于正在开发的软件，是否有意向对描述其用户有帮助的特征。例如，对于我们正在设计的招聘网站，可以考虑某个用户是在寻找全职工作还是兼职工作。</p>
+<p>在确定角色的有趣特征时，可以在角色卡片上写下注释。完成后，可以把角色卡挂在团队的公共区域，用来提示团队成员。</p>
+<div class="table-wrapper"><table><thead><tr><th>用户角色：内部招聘者</th></tr></thead><tbody>
+<tr><td>1. 不是很擅长使用电脑，但使用网络相当娴熟。</td></tr>
+<tr><td>2. 不经常使用该软件，但每次使用强度大。</td></tr>
+<tr><td>3. 他将阅读其他公司招聘广告，以此选择最好的措辞来完成他们的招聘广告。</td></tr>
+<tr><td>4. 使用简单很重要，但更重要的是，他学会的东西必须在几个月后能够很容易的回想起来。</td></tr>
+</tbody></table>
+</div>
+<h2 id="33-虚构人物和极端人物"><a class="header" href="#33-虚构人物和极端人物">3.3. “虚构人物”和“极端人物”</a></h2>
+<p>如果之前描述<a href="#32-%E8%A7%92%E8%89%B2%E5%BB%BA%E6%A8%A1%E7%9A%84%E6%AD%A5%E9%AA%A4">用户角色建模</a>都做完了，已经绝对比99%的其他软件团队多费了心思。大部分的团队确实可以到此为止了。</p>
+<p>不过，还有两个额外的技术值得探讨，因为它们<strong>有助于我们考虑某些系统的用户</strong>。当然，我们会在它们<strong>适用于为项目带来明显的好处是才会引入</strong>。</p>
+<h3 id="虚构人物"><a class="header" href="#虚构人物">虚构人物</a></h3>
+<p>识别用户角色是一个伟大的飞跃，但对于有些更为重要的用户角色，再进一步为角色创建一个虚构人物是很值得的。</p>
+<blockquote>
+<p>虚构人物是假象的用户角色代表。</p>
+</blockquote>
+<p>创建虚构人物不只是在用户角色上加上一个名字。对于虚构人物的描述应当是十分充分的，让团队的每个人都觉得他们知道这个任务。</p>
+<p>例如，之前我们提到“灭绝师太”，她要为她的公司发布工作信息。那她的描述可能是这样：</p>
+<blockquote>
+<p>灭绝师太在峨眉派的人事部负责招聘工作，该公司是一个高端网络组件制造商。她已经在该公司工作6年。
+灭绝师太有弹性的时间安排，每周周五她在家工作。
+灭绝师太对电脑相当在行，她觉得对于自己所使用的软件产品，她几乎都是超级用户。
+由于灭绝师太年轻时感情上受过伤害，并且一直忙于工作，40多了还没有结婚，也没有男朋友。她对男性的简历会吹毛求疵，要求很高。
+由于峨眉派几乎一直在扩张，灭绝师太总是在物色优秀的工程师。
+由于灭绝师太自以为是电脑行家，她对使用的软件和系统要求都很挑剔，容忍度极低。</p>
+</blockquote>
+<p>假如选择为项目创建虚构人物，要注意，应当<strong>事先做好充分的市场和目标用户群调查</strong>，要确保虚构人物能够<strong>真正代表产品的目标用户</strong>。</p>
+<p>我们加上了对灭绝师太的描述，如果有照片就更加生动了，应该找一幅灭绝师太的照片，将它也放入到虚构人物的定义中。</p>
+<p><img src="images/miejueshitai.png" alt="灭绝师太" /></p>
+<p>从用户角色或虚构人物的角度描述会使故事变得更加生动。识别出用户角色，并且可能有一两个虚构人物后，就可以开始从角色和虚构人物的视角来说话，而不是宽泛的“用户”。</p>
+<p>你可以写一个“用户地点搜索者可以限定他搜索到的工作都在指定的地理区域内”的故事，而不是“用户可以限定他搜索到的工作都在指定的地理区域内”的故事。以这种方式编写的用户故事可以提醒团队想起“杨逍”，他在寻找光明顶的工作。</p>
+<p>使用用户角色和虚构故事的名字来编写故事，并不意味着其他角色就不能执行那些故事，而是说明在讨论或实现故事时，用特定的用户角色或虚构人物来思考问题，总是有一些好处的。</p>
+<h3 id="极端人物"><a class="header" href="#极端人物">极端人物</a></h3>
+<p><code>Djajadiningrat</code>和其他合著者（2000）提出了第二种可以考虑的技术：<strong>考虑新系统的设计是，使用极端人物。</strong></p>
+<p>他们用设计<code>PDA</code>（掌上电脑）作为例子。他们建议不要只为一个典型的穿着考究、驾驶宝马的管理顾问做设计，系统设计师应该考虑那些有鲜明个性的用户。具体来说，作者建议为毒贩、教皇和穿梭多个男友之间的女子设计<code>PDA</code>。</p>
+<p>考虑极端人物很可能会让你编写出原表可能遗漏的故事。例如，很容易想到毒贩和有多个男友的女子都想要维护多份单独的时间表，以防被警察或男友看见。教皇可能没有那么多保密需求，但可能想要更大字号的字体。</p>
+<p>使用极端人物可以导致新的故事产生，但是很难事先确定是否应该讲哲学故事包含在产品中。当然，在极端人物投入大量时间也是不值得的，但是你可以尝试一下这两个方法。至少，你可以花几分钟去考虑一下教皇如何使用你的软件，这可能会带来一到两个灵感。</p>
+<h2 id="34-如果有现场用户该如何"><a class="header" href="#34-如果有现场用户该如何">3.4. 如果有现场用户该如何？</a></h2>
+<p>即使有真实的用户在办公室现场，咱们使用的用户角色建模仍然是有帮助的。与实际用户一起工作会大大提高交付成果所需要的软件的可能性。</p>
+<p>然而，即使与实际用户在一起，也无法保证有正确的用户或用户组合。</p>
+<p>为了降低无法满足重要客户的可能性，即使有内部用户在的二十号，你们还是应该对项目做一些简单的角色建模。</p>
+<h2 id="35-职责"><a class="header" href="#35-职责">3.5. 职责</a></h2>
+<h3 id="客户团队职责"><a class="header" href="#客户团队职责">客户团队职责</a></h3>
+<ul>
+<li>负责寻找用户（多多益善），并识别恰当的用户角色</li>
+<li>负责参与与识别用户角色和虚构人物的过程</li>
+<li>负责确保软件没有关注不恰当的用户</li>
+<li>在编写故事时，负责确保每个故事都能和至少一个用户角色或虚构人物联系起来</li>
+<li>开发软件时，负责考虑不同用户角色对于软件如何运行的不同偏好</li>
+<li>确保在识别和描述用户角色时，它们只是这个过程中的工具，不应超越作为工具之外的用途</li>
+</ul>
+<h3 id="开发人员职责"><a class="header" href="#开发人员职责">开发人员职责</a></h3>
+<ul>
+<li>负责参与确认用户故事和虚构人物的过程</li>
+<li>负责理解美国用户角色或虚构人物，以及他们之间的异同</li>
+<li>开发软件时，负责考虑通的用户角色对于软件运行的不同偏好</li>
+<li>负责确保在识别和描述用户角色时，它们只是这个过程中的工具，不应超越作为工具之外的任何用途</li>
+</ul>
+<h2 id="36-小结"><a class="header" href="#36-小结">3.6. 小结</a></h2>
+<ul>
+<li>大部分的项目小组只考虑单一的用户类型。这会导致软件忽略原本需要的一些用户类型</li>
+<li>为了避免从单一用户的角度编写的所有故事，要识别到软件交互的不同用户角色</li>
+<li>通过对每个用户角色定义相关特征，可以更清楚地看到不同角色间的不同点</li>
+<li>对于有些用户角色而言，用代表人物来描述会很有帮助。虚构人物是假想出来的用户角色代表。他们有名字，有照片，还有足够的相关细节，因为对项目成员来说，很真实</li>
+<li>对于有些应用程序，极端人物可能有助于搜集原本被遗漏的故事</li>
+</ul>
+<h2 id="扩展阅读"><a class="header" href="#扩展阅读">扩展阅读</a></h2>
+<ul>
+<li><a href="http://www.e-learning.co.il/home/pdf/4.pdf">User-Centered Design</a></li>
+<li><a href="https://www.w3.org/WAI/redesign/ucd">Notes on User Centered Design Process (UCD)</a></li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../ch2/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../ch4/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../ch2/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../ch4/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+        <script src="../ace.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../editor.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mode-rust.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-dawn.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../theme-tomorrow_night.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        <script type="text/javascript" src="../theme/simple-lightbox.min.js"></script>
+        <script type="text/javascript" src="../theme/theme.js"></script>
+        <script type="text/javascript" src="../theme/pagetoc.js"></script>
+
+
+    </body>
+</html>
