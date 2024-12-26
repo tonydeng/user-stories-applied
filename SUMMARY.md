@@ -1,7 +1,7 @@
 # Summary
 
 * [敏捷的用户故事方法](README.md)
-* [1. 什么是用户故事](ch1/README.md)
+* [1. 什么是用户故事？](ch1/README.md)
 * [2. 编写故事](ch2/README.md)
 * [3. 用户角色建模](ch3/README.md)
 * [4. 收集故事](ch4/README.md)
